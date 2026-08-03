@@ -1,0 +1,25 @@
+====================================================================
+INSTRUCCIONES DE DESPLIEGUE - HISTORIA DE USUARIO 1 (Frontend UI)
+REPOSITORIO: taller2-frontend
+ENTORNO OBJETIVO: Servidor Frontend (Linux/Ubuntu) - Puerto: 3000
+====================================================================
+
+1. REQUISITOS PREVIOS E INSTALACIÓN DE DEPENDENCIAS:
+   - Instalar las dependencias del servidor Node.js/Express:
+     npm install --production
+
+2. CONFIGURACIÓN DE VARIABLES DE ENTORNO:
+   - Exportar la dirección IP del servidor Backend (PC 1) y el puerto de la UI:
+     export BACKEND_URL="http://<IP_PC1_BACKEND>:8080"
+     export PORT=3000
+
+3. EJECUCIÓN DEL SERVICIO EN PUERTO 3000:
+   - Iniciar el servidor Express en segundo plano:
+     nohup npm start > frontend.log 2>&1 &
+
+4. VERIFICACIÓN DE OPERATIVIDAD (PRUEBA DE HUMO):
+   - Abrir el navegador e ingresar a:
+     http://localhost:3000
+   - Probar la calculadora de suma (HU1) ingresando valores en los campos A y B.
+
+====================================================================
