@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taller 2 DevOps — Calculadora Distribuida ICESI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-globes">
+    <div class="globe globe-1"></div>
+    <div class="globe globe-2"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header principal con branding y badge de estado -->
+    <header class="main-header">
+      <div class="brand">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <h1>Taller 2 DevOps</h1>
+          <p class="subtitle">Simulación de Despliegue & Calculadora Distribuida</p>
+        </div>
+      </div>
+      <div class="status-badge-container">
+        <div id="connectionStatus" class="status-badge offline">
+          <span class="pulse-dot"></span>
+          <span id="statusText">Conectando...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Banner de Alerta de Error (HU4) -->
+    <div id="errorAlert" class="alert-banner hidden">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h4 id="errorTitle">Fallo en Operación (HTTP 400)</h4>
+        <p id="errorMessage">Mensaje de error...</p>
+      </div>
+      <button class="close-alert-btn" id="closeAlertBtn">✕</button>
+    </div>
+
+    <!-- Layout Grid Principal -->
+    <main class="grid-layout">
+      <!-- Tarjeta 1: Calculadora Distribuida (HU1, HU2, HU4) -->
+      <section class="card calculator-card">
+        <div class="card-header">
+          <h3>🧮 Calculadora Distribuida</h3>
+          <span class="badge-tag">REST API</span>
+        </div>
+
+        <div class="input-group-grid">
+          <div class="input-field">
+            <label for="inputA">Número A</label>
+            <input type="number" id="inputA" step="any" placeholder="Ej: 42" value="10">
+          </div>
+          <div class="input-field">
+            <label for="inputB">Número B</label>
+            <input type="number" id="inputB" step="any" placeholder="Ej: 7" value="5">
+          </div>
+        </div>
+
+        <div class="operations-grid">
+          <button class="btn op-btn" data-op="sum">
+            <span class="op-symbol">+</span> Sumar (HU1)
+          </button>
+          <button class="btn op-btn" data-op="subtract">
+            <span class="op-symbol">-</span> Restar (HU2)
+          </button>
+          <button class="btn op-btn" data-op="multiply">
+            <span class="op-symbol">×</span> Multiplicar (HU2)
+          </button>
+          <button class="btn op-btn btn-danger" data-op="divide">
+            <span class="op-symbol">÷</span> Dividir (HU4)
+          </button>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">Resultado de Operación</span>
+          <div id="resultDisplay" class="result-value">--</div>
+          <div id="resultOperation" class="result-subtext">Esperando interacción del usuario</div>
+        </div>
+      </section>
+
+      <!-- Tarjeta 2: Historial del Sistema de Registro (HU3) -->
+      <section class="card history-card">
+        <div class="card-header">
+          <h3>📜 Historial SoR (Últimas 5)</h3>
+          <button id="refreshHistoryBtn" class="icon-btn" title="Actualizar Historial">🔄</button>
+        </div>
+        <p class="card-description">Persistencia en <code>sor_history.txt</code> en el Servidor Backend.</p>
+
+        <ul id="historyList" class="history-list">
+          <li class="empty-state">No hay operaciones registradas aún.</li>
+        </ul>
+      </section>
+
+      <!-- Tarjeta 3: Telemetría & Health Check (HU5) -->
+      <section class="card telemetry-card">
+        <div class="card-header">
+          <h3>📊 Telemetría y Salud del Sistema</h3>
+          <span id="telemetryState" class="badge-tag">UP</span>
+        </div>
+
+        <div class="telemetry-grid">
+          <div class="telemetry-item">
+            <span class="telemetry-label">Backend Target</span>
+            <span id="backendUrlDisplay" class="telemetry-val monospace">http://localhost:8080</span>
+          </div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">Uptime Backend</span>
+            <span id="backendUptimeDisplay" class="telemetry-val">0s</span>
+          </div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">Uptime Frontend</span>
+            <span id="frontendUptimeDisplay" class="telemetry-val">0s</span>
+          </div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">Persistencia SoR Writable</span>
+            <span id="sorWritableDisplay" class="telemetry-val text-success">Sí (chmod 666)</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>Universidad ICESI &bull; Ingeniería de Software V &bull; Simulación DevOps</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
