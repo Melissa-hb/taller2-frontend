@@ -16,11 +16,13 @@ jobs:
       - name: Detener contenedor anterior
         shell: powershell
         run: |
-          docker rm -f html-app 2>$null
-          if ($LASTEXITCODE -ne 0) {
+          $container = docker ps -a --filter "name=^html-app$" --format "{{.Names}}"
+
+          if ($container -eq "html-app") {
+            docker rm -f html-app
+          } else {
             Write-Host "No existe un contenedor html-app anterior. Continuando..."
           }
-          exit 0
 
       - name: Construir aplicación
         shell: powershell
