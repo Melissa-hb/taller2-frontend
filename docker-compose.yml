@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build: .
+    image: taller2-frontend:latest
+    container_name: taller2-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      # URL del backend. Ajustar segun el entorno:
+      #  - Backend en otro contenedor de esta misma red: http://backend:8080
+      #  - Backend en la maquina host: http://host.docker.internal:8080
+      #  - Backend en otra maquina: http://192.168.1.X:8080
+      BACKEND_URL: ${BACKEND_URL:-http://host.docker.internal:8080}
+    restart: unless-stopped
