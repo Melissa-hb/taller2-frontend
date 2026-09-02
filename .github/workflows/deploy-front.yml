@@ -13,14 +13,16 @@ jobs:
       - name: Descargar código
         uses: actions/checkout@v4
 
-      - name: Detener contenedor anterior
+      - name: Eliminar contenedor anterior
         shell: powershell
         run: |
           $container = docker ps -a --filter "name=^html-app$" --format "{{.Names}}"
 
           if ($container -eq "html-app") {
+            Write-Host "Contenedor html-app encontrado. Eliminándolo..."
             docker rm -f html-app
-          } else {
+          }
+          else {
             Write-Host "No existe un contenedor html-app anterior. Continuando..."
           }
 
