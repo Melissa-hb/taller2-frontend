@@ -1,10 +1,24 @@
 services:
-  frontend:
+  # ---- Servidor web: nginx sirve la SPA y hace de proxy inverso ----
+  web:
+    image: nginx:1.27-alpine
+    container_name: taller2-frontend-web
+    depends_on:
+      - app
+    ports:
+      - "3000:80"
+    volumes:
+      # Archivos estaticos de la interfaz
+      - ./public:/usr/share/nginx/html:ro
+      # Configuracion de nginx (rutas estaticas + proxy a /config y /status)
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+  # ---- App Express interna: solo responde /config y /status (HU5) ----
+  app:
     build: .
     image: taller2-frontend:latest
-    container_name: taller2-frontend
-    ports:
-      - "3000:3000"
+    container_name: taller2-frontend-app
     environment:
       PORT: 3000
       # URL del backend. Ajustar segun el entorno:
@@ -12,4 +26,7 @@ services:
       #  - Backend en la maquina host: http://host.docker.internal:8080
       #  - Backend en otra maquina: http://192.168.1.X:8080
       BACKEND_URL: ${BACKEND_URL:-http://host.docker.internal:8080}
+    # No publica puerto al host: solo es accesible desde el contenedor "web"
+    expose:
+      - "3000"
     restart: unless-stopped
