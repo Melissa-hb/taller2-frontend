@@ -1,0 +1,31 @@
+name: Deploy HTML
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Detener contenedor anterior
+        run: |
+          docker stop html-app || true
+          docker rm html-app || true
+
+      - name: Construir aplicación
+        run: |
+          docker build -t html-app:latest .
+
+      - name: Ejecutar aplicación
+        run: |
+          docker run -d \
+            --name html-app \
+            --restart unless-stopped \
+            -p 8080:80 \
+            html-app:latest
