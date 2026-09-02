@@ -15,8 +15,8 @@ jobs:
 
       - name: Detener contenedor anterior
         run: |
-          docker stop html-app || true
-          docker rm html-app || true
+          docker stop html-app 2>$null
+          docker rm html-app 2>$null
 
       - name: Construir aplicación
         run: |
